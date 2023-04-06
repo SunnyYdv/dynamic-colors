@@ -68,6 +68,7 @@ function App() {
         </button>
         <button onClick={() => mutate("ff0000")}>fetch red</button>
         <button onClick={() => mutate("0000ff")}>fetch blue</button>
+        <a href="https://github.com/SunnyYdv/dynamic-colors">Github link</a>
       </div>
     </div>
   );
