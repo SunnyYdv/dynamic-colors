@@ -61,14 +61,32 @@ function App() {
           onChange={({ target }) => setColor(target.value)}
         />
         <button
-          className={cls({ "animate-pulse": isLoading })}
+          className={cls(
+            "hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2",
+            { "animate-pulse": isLoading }
+          )}
           onClick={() => mutate(color)}
         >
           fetch color from input
         </button>
-        <button onClick={() => mutate("ff0000")}>fetch red</button>
-        <button onClick={() => mutate("0000ff")}>fetch blue</button>
-        <a className="text-primary hover:opacity-50" href="https://github.com/SunnyYdv/dynamic-colors">Github link</a>
+        <button
+          className='hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2'
+          onClick={() => mutate("ff0000")}
+        >
+          fetch red
+        </button>
+        <button
+          className='hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2'
+          onClick={() => mutate("0000ff")}
+        >
+          fetch blue
+        </button>
+        <a
+          className='text-primary hover:opacity-50 focus:focus-visible:outline-primary focus:focus-visible:outline-2'
+          href='https://github.com/SunnyYdv/dynamic-colors'
+        >
+          Github link
+        </a>
       </div>
     </div>
   );
