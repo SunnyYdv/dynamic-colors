@@ -33,24 +33,28 @@ function App() {
 
   return (
     <div className='flex flex-col items-center'>
-      <div className='flex flex-col items-center mb-10 gap-6'>
+      <div
+        className={cls("flex flex-col items-center mb-10 gap-6", {
+          "animate-pulse": isLoading,
+        })}
+      >
         <h3 className='text-white text-3xl transition-transform ease-in-out delay-300'>
           Color is {data && data.hex ? data.hex.value : "#?!%*!"}
         </h3>
-        <div
-          className={cls("h-40 w-40 bg-primary rounded-lg relative", {
-            "animate-pulse": isLoading,
-            "border-2 border-dashed border-white": !data?.hex?.value,
-          })}
-        >
-          <span
-            className={cls(
-              "absolute -top-3 -right-4 whitespace-nowrap bg-slate-500 p-1 rounded-md",
-              { "-top-3.5": !data }
-            )}
+        <div className='w-fit p-1 relative'>
+          <div
+            className={cls("p-2 h-40 w-40 bg-primary rounded-lg", {
+              "border-2 border-dashed border-white": !data?.hex?.value,
+            })}
           >
-            bg-primary
-          </span>
+            <span
+              className={cls(
+                "absolute -top-3 -right-4 whitespace-nowrap bg-slate-500 p-1 rounded-md"
+              )}
+            >
+              bg-primary
+            </span>
+          </div>
         </div>
       </div>
       <div className='flex flex-col gap-4'>
@@ -61,10 +65,7 @@ function App() {
           onChange={({ target }) => setColor(target.value)}
         />
         <button
-          className={cls(
-            "hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2",
-            { "animate-pulse": isLoading }
-          )}
+          className='hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2'
           onClick={() => mutate(color)}
         >
           fetch color from input
