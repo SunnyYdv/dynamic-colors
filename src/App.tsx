@@ -32,24 +32,27 @@ function App() {
   }, [data]);
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className="flex flex-col items-center">
       <div
-        className={cls("flex flex-col items-center mb-10 gap-6", {
+        className={cls("mb-10 flex flex-col items-center gap-6", {
           "animate-pulse": isLoading,
         })}
       >
-        <h3 className='text-white text-3xl transition-transform ease-in-out delay-300'>
+        <h3 className="text-3xl text-white">
           Color is {data && data.hex ? data.hex.value : "#?!%*!"}
         </h3>
-        <div className='w-fit p-1 relative'>
+        <div className="relative w-fit p-1">
           <div
-            className={cls("p-2 h-40 w-40 bg-primary rounded-lg", {
-              "border-2 border-dashed border-white": !data?.hex?.value,
-            })}
+            className={cls(
+              "h-40 w-40 rounded-lg bg-primary p-2 transition-colors delay-400 ease-in",
+              {
+                "border-2 border-dashed border-white": !data?.hex?.value,
+              }
+            )}
           >
             <span
               className={cls(
-                "absolute -top-3 -right-4 whitespace-nowrap bg-slate-500 p-1 rounded-md"
+                "absolute -right-4 -top-3 whitespace-nowrap rounded-md bg-slate-500 p-1"
               )}
             >
               bg-primary
@@ -57,34 +60,34 @@ function App() {
           </div>
         </div>
       </div>
-      <div className='flex flex-col gap-4'>
+      <div className="flex flex-col gap-4">
         <input
-          className='p-3 rounded-md'
+          className="rounded-md p-3"
           value={color}
           disabled={isLoading}
           onChange={({ target }) => setColor(target.value)}
         />
         <button
-          className='hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2'
+          className="hover:border-primary focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
           onClick={() => mutate(color)}
         >
           fetch color from input
         </button>
         <button
-          className='hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2'
+          className="hover:border-primary focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
           onClick={() => mutate("ff0000")}
         >
           fetch red
         </button>
         <button
-          className='hover:border-primary focus:focus-visible:outline-primary focus:focus-visible:outline-2'
+          className="hover:border-primary focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
           onClick={() => mutate("0000ff")}
         >
           fetch blue
         </button>
         <a
-          className='text-primary hover:opacity-50 focus:focus-visible:outline-primary focus:focus-visible:outline-2'
-          href='https://github.com/SunnyYdv/dynamic-colors'
+          className="text-primary hover:opacity-50 focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
+          href="https://github.com/SunnyYdv/dynamic-colors"
         >
           Github link
         </a>
