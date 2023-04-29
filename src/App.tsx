@@ -42,15 +42,19 @@ const getColorArrayByLightness = (primaryHex: string) => {
 };
 
 function App() {
-  const [color, setColor] = useState("00ff00");
+  const [color, setColor] = useState("#005FFD");
   const [colorsByLightness, setColorsByLightness] = useState(
-    getColorArrayByLightness("00ff00")
+    getColorArrayByLightness("#005FFD")
   );
   const { data, mutate, isLoading } = useMutation<
     { hex: { value: string; clean: string } },
     void,
     string
   >((hex: string) => getColor(hex));
+
+  useEffect(() => {
+    mutate("#005FFD");
+  }, []);
 
   useEffect(() => {
     if (data && data.hex) {
@@ -71,7 +75,7 @@ function App() {
           })}
         >
           <h3 className="flex w-60 items-center text-3xl text-white">
-            Color is {data && data.hex ? data.hex.value : "#?!%*!"}
+            Source color is {data && data.hex ? data.hex.value : "#?!%*!"}
           </h3>
           <div className="relative w-fit p-1">
             <div
@@ -84,10 +88,13 @@ function App() {
             >
               <span
                 className={cls(
-                  "absolute -right-4 -top-3 whitespace-nowrap rounded-md bg-slate-500 p-1"
+                  "absolute -right-4 -top-3 h-8 w-20 whitespace-nowrap rounded-md bg-slate-500 p-1",
+                  {
+                    "animate-pulse": isLoading,
+                  }
                 )}
               >
-                bg-primary
+                {data?.hex.value}
               </span>
             </div>
           </div>
@@ -128,14 +135,16 @@ function App() {
       <div className="mt-12 flex flex-col gap-2 self-start">
         {colorsByLightness.map((color) => {
           return (
-            <div className="relative flex items-center">
+            <div key={color.name} className="relative flex items-center">
               <div
-                className="mr-4 flex h-10 w-10 items-center justify-center rounded font-semibold"
+                className="mr-8 flex h-10 w-10 items-center justify-center rounded font-semibold"
                 style={{ backgroundColor: color.hex }}
               >
                 Aa
               </div>
-              <div>{color.name}</div>
+              <div className="flex flex-col items-start">
+                <span>{color.name}</span> <span className="text-gray-500">{color.hex.toUpperCase()}</span>
+              </div>
               <div className="absolute left-7 top-5 h-6 w-6 rounded bg-primary" />
             </div>
           );
