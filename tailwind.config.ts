@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      color: {
+        primary: "var(--color-primary)",
+      },
       textColor: {
         primary: "var(--color-primary)",
       },
@@ -18,6 +21,11 @@ export default {
       outlineColor: {
         primary: "var(--color-primary)",
       },
+      font: {
+        family: {
+          sans: "Inter"
+        }
+      }
     },
   },
   plugins: [],

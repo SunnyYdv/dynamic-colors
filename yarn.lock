@@ -812,6 +812,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+hsluv@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hsluv/-/hsluv-1.0.0.tgz#d06b2d23c3552f2428bb002e00268c681c425c70"
+  integrity sha512-RqZkmiAbUnQ5JkjDFB81iaAC62fkL7BtQultslKzb7Sqs6wzPljY0YPDEhA9pdsVdGQ6ksfMBp9rJB9JyRlQFQ==
+
 inflight@^1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"
