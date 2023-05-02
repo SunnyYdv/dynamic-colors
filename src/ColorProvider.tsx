@@ -12,12 +12,16 @@ export type Color = {
 
 export type ColorContext = {
   colors: Color[];
-  initialColor: string | null;
+  initialColor: string;
+  fetchColor: (hex: string) => void;
 };
 
 export const ColorContext = createContext<ColorContext>({
   colors: [],
-  initialColor: null,
+  initialColor: '#000',
+  fetchColor: () => {
+    return
+  }
 });
 
 async function getColor(hex: string) {
@@ -35,13 +39,17 @@ const getHSLuvColorPalette = (primaryHex: string) => {
 
   const colorPalette: Color[] = [];
 
-  converter.hsluv_l = (converter.hsluv_l % 10) + 90;
+  const lightnessRemainder = converter.hsluv_l % 10 + 90;
+
+  converter.hsluv_l = 95;
   converter.hsluvToHex();
   colorPalette.push({
     hex: converter.hex,
     name: "primary/50",
     palleteNumber: "50",
   });
+
+  converter.hsluv_l = lightnessRemainder;
 
   for (let i = 1; i < 10; i++) {
     converter.hsluv_l -= 10;
@@ -91,6 +99,7 @@ const ColorProvider = (props: Props) => {
     if (systemColor && systemColor.hex) {
       const colors = getHSLuvColorPalette(systemColor.hex.value);
       applyColorsToRoot(colors);
+      setColorsByLightness(colors);
     } else if (!isLoading && !isSuccess) {
       const colors = getHSLuvColorPalette("#005FFD");
       applyColorsToRoot(colors);
@@ -98,13 +107,14 @@ const ColorProvider = (props: Props) => {
     }
   }, [systemColor]);
 
-  if (isLoading) return <div className="animate-spin text-8xl">Skillaz</div>;
+  if (isLoading) return <div className="animate-spin text-8xl">Loading</div>;
 
   return (
     <ColorContext.Provider
       value={{
         colors: colorsByLightness,
-        initialColor: systemColor ? systemColor.hex.value : null,
+        initialColor: systemColor ? systemColor.hex.value : "#000",
+        fetchColor: mutate
       }}
     >
       {children}

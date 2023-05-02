@@ -17,22 +17,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      color: {
-        primary: {},
-      },
-      textColor: {
-        primary: colorPalette,
-      },
-      backgroundColor: {
-        primary: colorPalette,
-      },
-      borderColor: {
-        primary: colorPalette,
-      },
-      ringColor: {
-        primary: colorPalette,
-      },
-      outlineColor: {
+      colors: {
         primary: colorPalette,
       },
       font: {
