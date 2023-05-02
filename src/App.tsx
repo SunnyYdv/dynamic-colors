@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import axios from "axios";
@@ -6,6 +6,7 @@ import "./App.css";
 import { useMutation } from "react-query";
 import cls from "classnames";
 import { Hsluv } from "hsluv";
+import { ColorContext } from "./ColorProvider";
 
 async function getColor(hex: string) {
   const res = await axios.get(
@@ -15,56 +16,20 @@ async function getColor(hex: string) {
   return res.data;
 }
 
-const getColorArrayByLightness = (primaryHex: string) => {
-  const converter = new Hsluv();
-  converter.hex = primaryHex;
-  converter.hexToHsluv();
 
-  const colorPallete = [];
-
-  converter.hsluv_l = (converter.hsluv_l % 10) + 90;
-  converter.hsluvToHex();
-  colorPallete.push({
-    hex: converter.hex,
-    name: "primary/50",
-  });
-
-  for (let i = 1; i < 10; i++) {
-    converter.hsluv_l -= 10;
-    converter.hsluvToHex();
-    colorPallete.push({
-      hex: converter.hex,
-      name: `primary/${i * 100}`,
-    });
-  }
-
-  return colorPallete;
-};
 
 function App() {
   const [color, setColor] = useState("#005FFD");
-  const [colorsByLightness, setColorsByLightness] = useState(
-    getColorArrayByLightness("#005FFD")
-  );
+  // const [colorsByLightness, setColorsByLightness] = useState(
+  //   getColorArrayByLightness("#005FFD")
+  // );
   const { data, mutate, isLoading } = useMutation<
     { hex: { value: string; clean: string } },
     void,
     string
   >((hex: string) => getColor(hex));
 
-  useEffect(() => {
-    mutate("#005FFD");
-  }, []);
-
-  useEffect(() => {
-    if (data && data.hex) {
-      setColor(data.hex.clean);
-      setColorsByLightness(getColorArrayByLightness(data.hex.value));
-      document
-        .getElementById("root")!
-        .style.setProperty("--color-primary", data.hex.value);
-    }
-  }, [data]);
+  const colorContext = useContext(ColorContext)
 
   return (
     <div className="flex items-center">
@@ -75,15 +40,15 @@ function App() {
           })}
         >
           <h3 className="flex w-60 items-center text-3xl text-white">
-            Source color is {data && data.hex ? data.hex.value : "#?!%*!"}
+            Source color is {colorContext ? colorContext.initialColor : "#?!%*!"}
           </h3>
           <div className="relative w-fit p-1">
             <div
               className={cls(
-                "delay-400 h-40 w-40 rounded-lg bg-primary p-2 transition-colors ease-in",
-                {
-                  "border-2 border-dashed border-white": !data?.hex?.value,
-                }
+                "delay-400 h-40 w-40 rounded-lg bg-primary-500 p-2 transition-colors ease-in",
+                // {
+                //   "border-2 border-dashed border-white": !data?.hex?.value,
+                // }
               )}
             >
               <span
@@ -107,25 +72,25 @@ function App() {
             onChange={({ target }) => setColor(target.value)}
           />
           <button
-            className="hover:border-primary focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
+            className="hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
             onClick={() => mutate(color)}
           >
             fetch color from input
           </button>
           <button
-            className="hover:border-primary focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
+            className="hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
             onClick={() => mutate("ff0000")}
           >
             fetch red
           </button>
           <button
-            className="hover:border-primary focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
+            className="hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
             onClick={() => mutate("0000ff")}
           >
             fetch blue
           </button>
           <a
-            className="text-primary hover:opacity-50 focus:focus-visible:outline-2 focus:focus-visible:outline-primary"
+            className="text-primary-500 hover:opacity-50 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
             href="https://github.com/SunnyYdv/dynamic-colors"
           >
             Github link
@@ -133,19 +98,20 @@ function App() {
         </div>
       </div>
       <div className="mt-12 flex flex-col gap-2 self-start">
-        {colorsByLightness.map((color) => {
+        {colorContext.colors.map((color) => {
+
+          const bgStyle = `bg-primary-${color.palleteNumber}`;
           return (
             <div key={color.name} className="relative flex items-center">
               <div
-                className="mr-8 flex h-10 w-10 items-center justify-center rounded font-semibold"
-                style={{ backgroundColor: color.hex }}
+                className={`mr-8 flex h-10 w-10 items-center justify-center rounded font-semibold ${bgStyle}`}
               >
                 Aa
               </div>
               <div className="flex flex-col items-start">
                 <span>{color.name}</span> <span className="text-gray-500">{color.hex.toUpperCase()}</span>
               </div>
-              <div className="absolute left-7 top-5 h-6 w-6 rounded bg-primary" />
+              <div className="absolute left-7 top-5 h-6 w-6 rounded bg-primary-500" />
             </div>
           );
         })}
