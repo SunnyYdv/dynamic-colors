@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import "./App.css";
 import cls from "classnames";
 import { ColorContext } from "./ColorProvider";
+import { SketchPicker } from "react-color";
 
 function App() {
   const [color, setColor] = useState("#005FFD");
@@ -12,8 +13,33 @@ function App() {
   }, [initialColor]);
 
   return (
-    <div className="flex items-center">
-      <div className="mr-10 flex flex-col items-center">
+    <div className="flex items-start gap-6 justify-center">
+      <div className="flex flex-col items-center gap-4">
+        {/* <input
+            className="rounded-md p-3"
+            value={color}
+            // disabled={isLoading}
+            onChange={({ target }) => setColor(target.value)}
+          /> */}
+        <SketchPicker
+          color={color}
+          disableAlpha
+          onChange={(color) => setColor(color.hex)}
+        />
+        <button
+          className="bg-gray-600 hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
+          onClick={() => fetchColor(color)}
+        >
+          Set Color
+        </button>
+        <a
+          className="text-primary-500 hover:opacity-50 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
+          href="https://github.com/SunnyYdv/dynamic-colors"
+        >
+          Github link
+        </a>
+      </div>
+      <div className="flex flex-col items-center">
         <div
           className={cls("mb-10 flex flex-col items-center gap-2", {
             // "animate-pulse": isLoading,
@@ -48,40 +74,8 @@ function App() {
             </button>
           </div>
         </div>
-        <div className="flex flex-col gap-4">
-          <input
-            className="rounded-md p-3"
-            value={color}
-            // disabled={isLoading}
-            onChange={({ target }) => setColor(target.value)}
-          />
-          <button
-            className="hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
-            onClick={() => fetchColor(color)}
-          >
-            set color from input
-          </button>
-          <button
-            className="hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
-            onClick={() => fetchColor("ff0000")}
-          >
-            set pure red
-          </button>
-          <button
-            className="hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
-            onClick={() => fetchColor("0000ff")}
-          >
-            set pure blue
-          </button>
-          <a
-            className="text-primary-500 hover:opacity-50 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
-            href="https://github.com/SunnyYdv/dynamic-colors"
-          >
-            Github link
-          </a>
-        </div>
       </div>
-      <div className="mt-12 flex flex-col gap-2 self-start">
+      <div className="flex flex-col gap-2 self-start">
         {colors.map((color) => {
           const bgStyle = `bg-primary-${color.palleteNumber}`;
           return (
