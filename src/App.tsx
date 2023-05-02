@@ -13,18 +13,18 @@ function App() {
   }, [initialColor]);
 
   return (
-    <div className="flex items-start gap-6 justify-center">
+    <div className="flex items-start justify-center gap-6">
       <div className="flex flex-col items-center gap-4">
-        {/* <input
-            className="rounded-md p-3"
-            value={color}
-            // disabled={isLoading}
-            onChange={({ target }) => setColor(target.value)}
-          /> */}
         <SketchPicker
           color={color}
           disableAlpha
           onChange={(color) => setColor(color.hex)}
+        />
+        <input
+          className="rounded-md p-3"
+          value={color}
+          // disabled={isLoading}
+          onChange={({ target }) => setColor(target.value)}
         />
         <button
           className="bg-gray-600 hover:border-primary-500 focus:focus-visible:outline-2 focus:focus-visible:outline-primary-400"
